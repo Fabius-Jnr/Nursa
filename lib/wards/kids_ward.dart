@@ -41,7 +41,7 @@ class _KidsWardState extends State<KidsWard> {
     var userID = user.uid;
     try {
       await FirebaseFirestore.instance
-          .collection('Users')
+          .collection('users')
           .doc(userID)
           .collection('Reminders')
           .add(reminder.toJson())
@@ -49,6 +49,14 @@ class _KidsWardState extends State<KidsWard> {
     } catch (e) {
       print(e);
     }
+  }
+
+  bool isReminderOn = true; // Initially, the reminder is turned on
+
+  void toggleReminderStatus(bool newValue) {
+    setState(() {
+      isReminderOn = newValue;
+    });
   }
 
   @override
@@ -59,7 +67,7 @@ class _KidsWardState extends State<KidsWard> {
         centerTitle: true,
       ),
       body: FutureBuilder<List<ReminderModel>>(
-        future: fetchRemindersFromFirestore(),
+        future: fetchRemindersFromFirestore(), // Use the fetch method here
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // While the data is being fetched, show a loading indicator.
@@ -74,8 +82,19 @@ class _KidsWardState extends State<KidsWard> {
             return ListView.builder(
               itemCount: reminders.length,
               itemBuilder: (context, index) {
+                ReminderModel reminder = reminders[index];
                 return ReminderCardWidget(
-                  reminder: reminders[index],
+                  isReminderOn: reminder.isReminderOn,
+                  toggleReminderStatus: (newValue) {
+                    setState(() {
+                      // Update the isReminderOn property of the specific ReminderModel
+                      ReminderModel updatedReminder = reminder.copyWith(
+                        isReminderOn: newValue,
+                      );
+                      reminders[index] = updatedReminder;
+                    });
+                  },
+                  reminder: reminder,
                 );
               },
             );
@@ -103,7 +122,9 @@ class _KidsWardState extends State<KidsWard> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
                                   child: const Text(
                                     "Cancel",
                                     style: TextStyle(fontSize: 24),
@@ -120,13 +141,6 @@ class _KidsWardState extends State<KidsWard> {
                                         selectedTime.minute,
                                       );
 
-                                      // Schedule the alarm/notification.
-                                      scheduleAlarm(
-                                        selectedDateTime,
-                                        'Alarm Title',
-                                        'This is the alarm notification body.',
-                                      );
-
                                       final ReminderModel reminderModel =
                                           ReminderModel(
                                         patientName: patientNameController.text,
@@ -135,6 +149,7 @@ class _KidsWardState extends State<KidsWard> {
                                         drugType: drugTypeController.text,
                                         time: timeController.text,
                                         date: dateController.text,
+                                        isReminderOn: true,
                                       );
 
                                       await saveReminderToFirestore(
@@ -145,6 +160,14 @@ class _KidsWardState extends State<KidsWard> {
                                       drugTypeController.clear();
                                       timeController.clear();
                                       dateController.clear();
+
+                                      // Call setState to trigger a rebuild of the UI
+                                      setState(() {
+                                        // You can update any other UI-related data here if needed
+                                      });
+
+                                      // Close the modal after saving
+                                      Navigator.pop(context);
                                     }
                                   },
                                   child: const Text(
@@ -179,7 +202,7 @@ class _KidsWardState extends State<KidsWard> {
                               controller: bedNumberController,
                               text: "bed number",
                               labelText: "Bed number",
-                              hintText: "e.g: 10",
+                              hintText: "e.g: AG",
                               icon: Icons.bed,
                             ),
                             const SizedBox(
@@ -258,26 +281,26 @@ class _KidsWardState extends State<KidsWard> {
   }
 }
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-Future<void> scheduleAlarm(DateTime dateTime, String title, String body) async {
-  var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
-    'channel_id',
-    'channel_name',
-    importance: Importance.max,
-    priority: Priority.high,
-    playSound: true,
-  );
-  var platformChannelSpecifics = NotificationDetails(
-    android: androidPlatformChannelSpecifics,
-  );
+// final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//     FlutterLocalNotificationsPlugin();
+// Future<void> scheduleAlarm(DateTime dateTime, String title, String body) async {
+//   var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
+//     'channel_id',
+//     'channel_name',
+//     importance: Importance.max,
+//     priority: Priority.high,
+//     playSound: true,
+//   );
+//   var platformChannelSpecifics = NotificationDetails(
+//     android: androidPlatformChannelSpecifics,
+//   );
 
-  await flutterLocalNotificationsPlugin.schedule(
-    0,
-    title,
-    body,
-    dateTime,
-    platformChannelSpecifics,
-    androidAllowWhileIdle: true,
-  );
-}
+//   await flutterLocalNotificationsPlugin.schedule(
+//     0,
+//     title,
+//     body,
+//     dateTime,
+//     platformChannelSpecifics,
+//     androidAllowWhileIdle: true,
+//   );
+// }

@@ -18,12 +18,15 @@ class Authentication {
   Future<void> createUserWithEmailAndPassword(
       String userID, UserModel userModel) async {
     try {
-      _db.collection("Users").doc(userID).set(userModel.toJson()).whenComplete(
-            () => Get.snackbar("Success", "Account created successfully"),
-          );
+      // Pass the user ID as a field in the document
+      await _db.collection("users").doc(userID).set({
+        'userName': userModel.userName,
+        'uniqueId': userModel.uniqueId,
+        'email': userModel.email,
+      }).whenComplete(
+          () => Get.snackbar("Success", "Account created successfully"));
     } catch (e) {
       Get.snackbar("Failed", "Account not created");
-
       print(e);
     }
   }

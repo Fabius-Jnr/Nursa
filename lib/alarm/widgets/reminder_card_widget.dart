@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:nursa/alarm/constants/styles.dart';
 import 'package:nursa/wards/reminder_model.dart';
-
 import 'widgets.dart';
 
 class ReminderCardWidget extends StatelessWidget {
   const ReminderCardWidget({
-    super.key,
+    Key? key,
     required this.reminder,
-  });
+    required this.isReminderOn,
+    required this.toggleReminderStatus,
+  }) : super(key: key);
 
   final ReminderModel reminder;
+  final bool isReminderOn;
+  final Function(bool) toggleReminderStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -32,25 +35,30 @@ class ReminderCardWidget extends StatelessWidget {
                         fontSize: 28, fontWeight: FontWeight.w500),
                   ),
                   const Spacer(),
-                  Switch(value: true, onChanged: (value) {})
+                  Switch(
+                    value: isReminderOn,
+                    onChanged: (value) {
+                      toggleReminderStatus(!isReminderOn);
+                    },
+                  ),
                 ],
               ),
-              const Divider(
-                thickness: 4,
-              ),
+              const Divider(thickness: 4),
               Row(
                 children: [
                   GeneralInfoWidget(
-                      firstTitle: "Patient Name",
-                      firstDescription: reminder.patientName,
-                      secondTitle: "Bed Number",
-                      secondDescription: reminder.bedNo),
+                    firstTitle: "Patient Name",
+                    firstDescription: reminder.patientName,
+                    secondTitle: "Bed Number",
+                    secondDescription: reminder.bedNo,
+                  ),
                   const Spacer(),
                   GeneralInfoWidget(
-                      firstTitle: "Name of drug",
-                      firstDescription: reminder.drugType,
-                      secondTitle: "Drug Type",
-                      secondDescription: reminder.drugName)
+                    firstTitle: "Name of drug",
+                    firstDescription: reminder.drugName,
+                    secondTitle: "Drug Type",
+                    secondDescription: reminder.drugType,
+                  ),
                 ],
               ),
             ],

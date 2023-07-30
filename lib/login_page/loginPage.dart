@@ -76,7 +76,7 @@ class LoginPage extends StatelessWidget {
                     textField(
                         hint_Text: 'Pasword',
                         icon: Icons.password,
-                        inputType: TextInputType.number,
+                        inputType: TextInputType.text,
                         controller: passwordController,
                         obscureText: true),
                     const SizedBox(height: 10),
@@ -129,7 +129,7 @@ class LoginPage extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () async {
           if (_formKey.currentState!.validate()) {
-            await Authentication().signUpUserWithEmailAndPassword(
+            await Authentication().loginWithEmailAndPassword(
                 emailController.text, passwordController.text);
             Get.to(
               () => const NurseDashboard(),

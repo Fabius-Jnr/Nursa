@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,6 +23,15 @@ class _RegistrationState extends State<Registration> {
   final TextEditingController passwordController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey();
+
+  Future<void> addUserDetails(
+      String name, String uniqueID, String email) async {
+    await FirebaseFirestore.instance.collection('users').add({
+      'name': name,
+      'unique ID': uniqueID,
+      'email': email,
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +106,7 @@ class _RegistrationState extends State<Registration> {
                             },
                             hintText: "Unique ID",
                             icon: Icons.password_sharp,
-                            inputType: TextInputType.emailAddress,
+                            inputType: TextInputType.number,
                             controller: uniqueIdController,
                             obscureText: true,
                           ),
@@ -109,9 +119,9 @@ class _RegistrationState extends State<Registration> {
                             },
                             hintText: "Pasword",
                             icon: Icons.password,
-                            inputType: TextInputType.number,
                             controller: passwordController,
                             obscureText: true,
+                            inputType: TextInputType.text,
                           ),
                         ],
                       ),
@@ -121,15 +131,24 @@ class _RegistrationState extends State<Registration> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         final UserModel userModel = UserModel(
-                            userName: nameController.text,
-                            password: passwordController.text,
-                            uniqueId: uniqueIdController.text,
-                            email: emailController.text);
-                        await Authentication().signUpUserWithEmailAndPassword(
-                            emailController.text, passwordController.text);
-                        Get.to(
-                          () => LoginPage(),
+                          userName: nameController.text,
+                          password: passwordController.text,
+                          uniqueId: uniqueIdController.text,
+                          email: emailController.text,
                         );
+                        await Authentication().signUpUserWithEmailAndPassword(
+                          emailController.text,
+                          passwordController.text,
+                        );
+
+                        // Adding user details to Firestore collection
+                        await addUserDetails(
+                          nameController.text,
+                          uniqueIdController.text,
+                          emailController.text,
+                        );
+
+                        Get.to(() => LoginPage());
                         final FirebaseAuth auth = FirebaseAuth.instance;
                         var user = auth.currentUser!;
                         var userID = user.uid;
