@@ -1,29 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:nursa/authentication/authentication.dart';
 
-class FetchingComplaints extends StatefulWidget {
-  const FetchingComplaints({super.key});
+class FeedbackPage extends StatefulWidget {
+  const FeedbackPage({super.key});
 
   @override
-  State<FetchingComplaints> createState() => _FetchingComplaintsState();
+  State<FeedbackPage> createState() => _FeedbackPageState();
 }
 
-class _FetchingComplaintsState extends State<FetchingComplaints> {
-  final TextEditingController compController = TextEditingController();
+class _FeedbackPageState extends State<FeedbackPage> {
+  final TextEditingController feedbackController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Complaint page"),
+        title: const Text("Feedback Page"),
       ),
       body: Center(
         child: Column(
           children: [
             const SizedBox(height: 90),
             TextField(
-              controller: compController,
+              controller: feedbackController,
               decoration: const InputDecoration(
-                labelText: 'Enter complaints',
+                labelText: 'Enter your feedback',
                 border: OutlineInputBorder(),
                 contentPadding:
                     EdgeInsets.symmetric(vertical: 50, horizontal: 10),
@@ -33,17 +34,17 @@ class _FetchingComplaintsState extends State<FetchingComplaints> {
             ElevatedButton(
               onPressed: () async {
                 await Authentication()
-                    .addToFirestoreCollection(compController.text);
+                    .addfeedbackToFirestoreCollection(feedbackController.text);
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: const Text("Complaint submitted"),
-                      content: const Text("Thank you for your message!"),
+                      title: const Text("Feedback submitted"),
+                      content: const Text("Thank you for your feedback!"),
                       actions: [
                         ElevatedButton(
                           onPressed: () {
-                            compController.clear();
+                            feedbackController.clear();
                             Navigator.of(context).pop();
                           },
                           child: const Text("OK"),
@@ -61,16 +62,3 @@ class _FetchingComplaintsState extends State<FetchingComplaints> {
     );
   }
 }
-
-// class CompDataDisplayWidget extends StatelessWidget {
-//   final List<String> compData;
-
-//   CompDataDisplayWidget({required this.compData});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     String dataText = compData.join('\n');
-
-//     return Text(dataText);
-//   }
-//}

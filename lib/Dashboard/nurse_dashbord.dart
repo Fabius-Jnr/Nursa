@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nursa/welcome_screen/welcome_screen.dart';
 import '../container/nurse_container.dart';
 
 class NurseDashboard extends StatefulWidget {
@@ -9,6 +12,7 @@ class NurseDashboard extends StatefulWidget {
 }
 
 class _NurseDashboardState extends State<NurseDashboard> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,18 +45,40 @@ class _NurseDashboardState extends State<NurseDashboard> {
                 borderRadius: BorderRadius.circular(30),
                 color: Colors.white,
               ),
-              child: const Center(
+              child: Center(
                 child: Column(
                   children: [
-                    Text(
-                      'Dashboard',
-                      style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 68, 4, 91)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Text(
+                          'Dashboard',
+                          style: TextStyle(
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 68, 4, 91)),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: InkWell(
+                            onTap: () {
+                              auth.signOut();
+                              Get.to(() => const WelcomeScreen());
+                            },
+                            child: const Text(
+                              "Logout",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 10),
-                    Text(
+                    const SizedBox(height: 10),
+                    Container(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: Image.asset("assets/nurse.jpg")),
+                    const Text(
                       'Choose Ward',
                       style: TextStyle(
                           fontSize: 20,
@@ -60,8 +86,8 @@ class _NurseDashboardState extends State<NurseDashboard> {
                           color: Color.fromARGB(255, 68, 4, 91)),
                       textAlign: TextAlign.left,
                     ),
-                    SizedBox(height: 10),
-                    NurseContainer(),
+                    const SizedBox(height: 10),
+                    const NurseContainer(),
                   ],
                 ),
               ),
@@ -69,11 +95,6 @@ class _NurseDashboardState extends State<NurseDashboard> {
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {},
-      //   child: Icon(Icons.add),
-      //   backgroundColor: Color.fromARGB(255, 175, 146, 244),
-      // ),
     );
   }
 }

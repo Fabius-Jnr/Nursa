@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nursa/accessories/accessories.dart';
+import 'package:nursa/others/puzzles.dart';
+import 'package:nursa/sendables/complaints.dart';
+import 'package:nursa/sendables/feedbacks.dart';
 import '../wards/emer_ward.dart';
 import '../wards/kids_ward.dart';
 
@@ -87,7 +92,9 @@ class NurseContainer extends StatelessWidget {
                   color: const Color.fromARGB(255, 175, 146, 244),
                   borderRadius: BorderRadius.circular(20)),
               child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => const FetchingComplaints());
+                  },
                   child: const Text(
                     'Send\nComplaint',
                     style: TextStyle(
@@ -106,7 +113,9 @@ class NurseContainer extends StatelessWidget {
                   color: const Color.fromARGB(255, 175, 146, 244),
                   borderRadius: BorderRadius.circular(20)),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(() => const FeedbackPage());
+                },
                 child: const Text(
                   'Send\nFeedback',
                   style: TextStyle(
@@ -131,7 +140,9 @@ class NurseContainer extends StatelessWidget {
                   color: const Color.fromARGB(255, 175, 146, 244),
                   borderRadius: BorderRadius.circular(20)),
               child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => const NurseEthicsPage());
+                  },
                   child: const Text(
                     'Resources',
                     style: TextStyle(
@@ -150,9 +161,11 @@ class NurseContainer extends StatelessWidget {
                   color: const Color.fromARGB(255, 175, 146, 244),
                   borderRadius: BorderRadius.circular(20)),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(() => const MedicalPuzzlesPage());
+                },
                 child: const Text(
-                  'Med.\nHistory',
+                  'Puzzles',
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.normal,

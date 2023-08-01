@@ -38,4 +38,50 @@ class Authentication {
       rethrow;
     }
   }
+
+  Future<void> addToFirestoreCollection(String text) async {
+    try {
+      final userId = auth.currentUser!.uid;
+      CollectionReference usersCollection =
+          FirebaseFirestore.instance.collection('users');
+
+      // Create a reference to the user's document in the 'Users' collection
+      DocumentReference userDocRef = usersCollection.doc(userId);
+
+      // Create a reference to the 'comp' subcollection inside the user's document
+      CollectionReference compCollection = userDocRef.collection('complaints');
+
+      // Add the data to the 'comp' subcollection
+      await compCollection.add({'complaints': text});
+
+      // Show a success message or perform any other actions as needed
+      print('Data added to Firestore subcollection successfully');
+    } catch (e) {
+      // Handle any errors that may occur during the process
+      print('Error adding data to Firestore: $e');
+    }
+  }
+
+  Future<void> addfeedbackToFirestoreCollection(String text) async {
+    try {
+      final userId = auth.currentUser!.uid;
+      CollectionReference usersCollection =
+          FirebaseFirestore.instance.collection('users');
+
+      // Create a reference to the user's document in the 'Users' collection
+      DocumentReference userDocRef = usersCollection.doc(userId);
+
+      // Create a reference to the 'comp' subcollection inside the user's document
+      CollectionReference compCollection = userDocRef.collection('feedbacks');
+
+      // Add the data to the 'comp' subcollection
+      await compCollection.add({'feedback': text});
+
+      // Show a success message or perform any other actions as needed
+      print('feedback added to Firestore subcollection successfully');
+    } catch (e) {
+      // Handle any errors that may occur during the process
+      print('Error adding data to Firestore: $e');
+    }
+  }
 }
