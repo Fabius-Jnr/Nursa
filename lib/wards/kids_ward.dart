@@ -7,6 +7,7 @@ import 'package:nursa/alarm/controllers/controllers.dart';
 import 'package:nursa/alarm/screens/reminder_repository.dart';
 import 'package:nursa/alarm/widgets/reminder_card_widget.dart';
 import 'package:nursa/wards/reminder_model.dart';
+import 'package:alarm/alarm.dart';
 
 import '../alarm/widgets/textformfield_widget.dart';
 
@@ -57,6 +58,17 @@ class _KidsWardState extends State<KidsWard> {
     setState(() {
       isReminderOn = newValue;
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _initAlarm();
+  }
+
+  _initAlarm() async{
+     await Alarm.init();
   }
 
   @override
@@ -139,6 +151,12 @@ class _KidsWardState extends State<KidsWard> {
                                         selectedDate.day,
                                         selectedTime.hour,
                                         selectedTime.minute,
+                                      );
+
+                                      await _configureAlarm(
+                                        selectedDateTime,
+                                        patientNameController.text,
+                                        drugFieldController.text,
                                       );
 
                                       final ReminderModel reminderModel =
@@ -278,6 +296,26 @@ class _KidsWardState extends State<KidsWard> {
             );
           }),
     );
+  }
+
+  _configureAlarm(
+    DateTime dateTime,
+    String notificationTitle,
+    String notificationBody,
+  ) async {
+    final alarmSettings = AlarmSettings(
+      id: 42,
+      dateTime: dateTime,
+      assetAudioPath: 'assets/alarm_sound.wav',
+      loopAudio: true,
+      vibrate: true,
+      fadeDuration: 3.0,
+      notificationTitle: notificationTitle,
+      notificationBody: "Time to take $notificationBody",
+      enableNotificationOnKill: true,
+    );
+
+    await Alarm.set(alarmSettings: alarmSettings);
   }
 }
 
