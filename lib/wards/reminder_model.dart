@@ -21,7 +21,7 @@ class ReminderModel {
 
   ReminderModel.fromJson(Map<String, dynamic> json)
       : 
-      id = json['id'],
+      id = json['id'] ?? 0,
       patientName = json['patientName'] ?? '',
         drugName = json['drugName'] ?? '',
         bedNo = json['bedNo'] ?? '',
@@ -45,6 +45,7 @@ class ReminderModel {
 
   toJson() {
     return {
+      "id": id,
       "patientName": patientName,
       "drugName": drugName,
       "bedNo": bedNo,

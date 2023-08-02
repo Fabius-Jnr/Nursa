@@ -156,7 +156,7 @@ class _KidsWardState extends State<KidsWard> {
                                         selectedTime.minute,
                                       );
 
-                                      final id = DateTime.now().millisecondsSinceEpoch;
+                                      final id = UniqueKey().hashCode;
 
                                       await _configureAlarm(
                                         id,
@@ -304,6 +304,10 @@ class _KidsWardState extends State<KidsWard> {
           }),
     );
   }
+
+  int _convertTo16Bit(int value) {
+  return value & 0xFFFF; // Perform bitwise AND with 0xFFFF (hexadecimal for 65535, which is the maximum value for a 16-bit integer)
+}
 
   _configureAlarm(
     int id,
