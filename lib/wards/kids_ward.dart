@@ -96,15 +96,18 @@ class _KidsWardState extends State<KidsWard> {
               itemBuilder: (context, index) {
                 ReminderModel reminder = reminders[index];
                 return ReminderCardWidget(
-                  isReminderOn: reminder.isReminderOn,
-                  toggleReminderStatus: (newValue) {
-                    setState(() {
+                  // isReminderOn: reminder.isReminderOn,
+                  toggleReminderStatus: (newValue) async{
+                  print("new value is $newValue>>>>>>>>>");
+                  if(newValue == false){
+                    await Alarm.stop(reminder.id);
+                  }
                       // Update the isReminderOn property of the specific ReminderModel
                       ReminderModel updatedReminder = reminder.copyWith(
                         isReminderOn: newValue,
                       );
                       reminders[index] = updatedReminder;
-                    });
+                 
                   },
                   reminder: reminder,
                 );
@@ -153,7 +156,10 @@ class _KidsWardState extends State<KidsWard> {
                                         selectedTime.minute,
                                       );
 
+                                      final id = DateTime.now().millisecondsSinceEpoch;
+
                                       await _configureAlarm(
+                                        id,
                                         selectedDateTime,
                                         patientNameController.text,
                                         drugFieldController.text,
@@ -161,6 +167,7 @@ class _KidsWardState extends State<KidsWard> {
 
                                       final ReminderModel reminderModel =
                                           ReminderModel(
+                                            id: id,
                                         patientName: patientNameController.text,
                                         drugName: drugFieldController.text,
                                         bedNo: bedNumberController.text,
@@ -299,12 +306,13 @@ class _KidsWardState extends State<KidsWard> {
   }
 
   _configureAlarm(
+    int id,
     DateTime dateTime,
     String notificationTitle,
     String notificationBody,
   ) async {
     final alarmSettings = AlarmSettings(
-      id: 42,
+      id: id,
       dateTime: dateTime,
       assetAudioPath: 'assets/alarm_sound.wav',
       loopAudio: true,

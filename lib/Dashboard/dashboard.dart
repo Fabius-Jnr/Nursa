@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nursa/container/container.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -63,7 +62,6 @@ class _DashboardState extends State<Dashboard> {
                       textAlign: TextAlign.left,
                     ),
                     SizedBox(height: 10),
-                    MyContainer(),
                     SizedBox(height: 200),
                   ],
                 ),

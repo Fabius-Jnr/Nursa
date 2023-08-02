@@ -1,4 +1,5 @@
 class ReminderModel {
+  final int id;
   final String patientName;
   final String drugName;
   final String bedNo;
@@ -8,6 +9,7 @@ class ReminderModel {
   bool isReminderOn;
 
   ReminderModel({
+    required this.id,
     required this.patientName,
     required this.drugName,
     required this.bedNo,
@@ -18,7 +20,9 @@ class ReminderModel {
   });
 
   ReminderModel.fromJson(Map<String, dynamic> json)
-      : patientName = json['patientName'] ?? '',
+      : 
+      id = json['id'],
+      patientName = json['patientName'] ?? '',
         drugName = json['drugName'] ?? '',
         bedNo = json['bedNo'] ?? '',
         drugType = json['drugType'] ?? '',
@@ -28,6 +32,7 @@ class ReminderModel {
 
   ReminderModel copyWith({bool? isReminderOn}) {
     return ReminderModel(
+      id: id,
       patientName: patientName,
       drugName: drugName,
       bedNo: bedNo,

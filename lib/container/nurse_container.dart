@@ -52,12 +52,7 @@ class NurseContainer extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20)),
               child: TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const EmergencyWard(),
-                      ),
-                    );
+                   
                   },
                   child: const Text(
                     'EMER.\nWARD',

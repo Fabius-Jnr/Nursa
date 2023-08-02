@@ -3,17 +3,22 @@ import 'package:nursa/alarm/constants/styles.dart';
 import 'package:nursa/wards/reminder_model.dart';
 import 'widgets.dart';
 
-class ReminderCardWidget extends StatelessWidget {
-  const ReminderCardWidget({
+class ReminderCardWidget extends StatefulWidget {
+   ReminderCardWidget({
     Key? key,
     required this.reminder,
-    required this.isReminderOn,
     required this.toggleReminderStatus,
   }) : super(key: key);
 
   final ReminderModel reminder;
-  final bool isReminderOn;
   final Function(bool) toggleReminderStatus;
+
+  @override
+  State<ReminderCardWidget> createState() => _ReminderCardWidgetState();
+}
+
+class _ReminderCardWidgetState extends State<ReminderCardWidget> {
+  bool _switchValue = true;
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +35,18 @@ class ReminderCardWidget extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    reminder.time,
+                    widget.reminder.time,
                     style: const TextStyle(
                         fontSize: 28, fontWeight: FontWeight.w500),
                   ),
                   const Spacer(),
                   Switch(
-                    value: isReminderOn,
-                    onChanged: (value) {
-                      toggleReminderStatus(!isReminderOn);
+                    value: _switchValue,
+                    onChanged: (value) {  
+                      setState(() {
+                         _switchValue = !_switchValue;
+                         widget.toggleReminderStatus(_switchValue);
+                      });
                     },
                   ),
                 ],
@@ -48,16 +56,16 @@ class ReminderCardWidget extends StatelessWidget {
                 children: [
                   GeneralInfoWidget(
                     firstTitle: "Patient Name",
-                    firstDescription: reminder.patientName,
+                    firstDescription: widget.reminder.patientName,
                     secondTitle: "Bed Number",
-                    secondDescription: reminder.bedNo,
+                    secondDescription: widget.reminder.bedNo,
                   ),
                   const Spacer(),
                   GeneralInfoWidget(
                     firstTitle: "Name of drug",
-                    firstDescription: reminder.drugName,
+                    firstDescription: widget.reminder.drugName,
                     secondTitle: "Drug Type",
-                    secondDescription: reminder.drugType,
+                    secondDescription: widget.reminder.drugType,
                   ),
                 ],
               ),
