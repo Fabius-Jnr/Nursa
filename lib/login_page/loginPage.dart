@@ -15,72 +15,80 @@ class LoginPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-//  appBar: _appBar(),
-      body: SingleChildScrollView(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          padding: const EdgeInsets.all(10),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white10.withOpacity(0.8),
+        appBar: AppBar(
+          title: const Text(
+            'Login',
+            style: TextStyle(
+                color: Colors.black, fontSize: 25, letterSpacing: 1.5),
+          ),
+          automaticallyImplyLeading: true,
+          backgroundColor: Colors.white10,
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(height: 80),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Admin_Login()));
-                  },
-                  child: const Text(
-                    'ADMIN\nLOGIN',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                        color: Colors.indigoAccent,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
               Container(
-                height: 130,
-                width: 130,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+                height: MediaQuery.of(context).size.height * 0.3,
+                width: double.infinity,
                 decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
                   color: Color.fromARGB(255, 175, 146, 244),
                 ),
                 child: Image.asset('assets/image1.png'),
               ),
-              const SizedBox(height: 10),
-              Container(
+              const SizedBox(height: 20),
+              Padding(
                 padding: const EdgeInsetsDirectional.symmetric(horizontal: 30),
                 child: Column(
                   children: [
                     Form(
                       key: _formKey,
                       child: textField(
-                          hint_Text: 'Email',
+                          hintText: 'Email',
                           icon: Icons.email,
                           inputType: TextInputType.emailAddress,
                           controller: emailController,
                           obscureText: false),
                     ),
                     textField(
-                        hint_Text: 'Unique Id',
+                        hintText: 'Unique Id',
                         icon: Icons.password_sharp,
                         inputType: TextInputType.number,
                         controller: uniqueIdController,
                         obscureText: true),
                     textField(
-                        hint_Text: 'Pasword',
+                        hintText: 'Pasword',
                         icon: Icons.password,
                         inputType: TextInputType.text,
                         controller: passwordController,
                         obscureText: true),
                     const SizedBox(height: 10),
                     loginButton(context),
+                    Align(
+                      alignment: Alignment.center,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Admin_Login()));
+                        },
+                        child: const Text(
+                          'Admin Login',
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              color: Colors.indigoAccent,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -92,7 +100,7 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget textField(
-      {required String hint_Text,
+      {required String hintText,
       required IconData icon,
       required TextInputType inputType,
       required TextEditingController controller,
@@ -105,8 +113,7 @@ class LoginPage extends StatelessWidget {
         keyboardType: inputType,
         controller: controller,
         decoration: InputDecoration(
-          // prefix: Icon(icon),
-          hintText: hint_Text,
+          hintText: hintText,
           focusedBorder: OutlineInputBorder(
             borderSide:
                 const BorderSide(color: Color.fromARGB(255, 153, 39, 201)),

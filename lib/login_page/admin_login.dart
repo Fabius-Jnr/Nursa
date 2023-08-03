@@ -38,7 +38,7 @@ class Admin_Login extends StatelessWidget {
                   height: 10,
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Column(
                     children: [
                       textField(
@@ -79,7 +79,7 @@ class Admin_Login extends StatelessWidget {
       required TextEditingController controller,
       required bool obscureText}) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 10),
       child: TextFormField(
         cursorColor: const Color.fromARGB(255, 153, 39, 201),
         obscureText: obscureText,
@@ -111,22 +111,22 @@ class Admin_Login extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Dashboard()),
+            MaterialPageRoute(builder: (context) => const Dashboard()),
           );
         },
-        child: const Text(
-          'Login',
-          style: TextStyle(fontSize: 25),
-        ),
         style: ButtonStyle(
           foregroundColor: MaterialStateProperty.all(Colors.white),
           backgroundColor:
-              MaterialStateProperty.all(Color.fromARGB(255, 175, 146, 244)),
+              MaterialStateProperty.all(const Color.fromARGB(255, 175, 146, 244)),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0),
             ),
           ),
+        ),
+        child: const Text(
+          'Login',
+          style: TextStyle(fontSize: 25),
         ),
       ),
     );

@@ -4,7 +4,6 @@ import 'package:nursa/accessories/accessories.dart';
 import 'package:nursa/others/puzzles.dart';
 import 'package:nursa/sendables/complaints.dart';
 import 'package:nursa/sendables/feedbacks.dart';
-import '../wards/emer_ward.dart';
 import '../wards/kids_ward.dart';
 
 class NurseContainer extends StatelessWidget {

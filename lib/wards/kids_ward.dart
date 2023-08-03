@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -52,7 +51,7 @@ class _KidsWardState extends State<KidsWard> {
     }
   }
 
-  bool isReminderOn = true; // Initially, the reminder is turned on
+  bool isReminderOn = true;
 
   void toggleReminderStatus(bool newValue) {
     setState(() {
@@ -62,13 +61,12 @@ class _KidsWardState extends State<KidsWard> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _initAlarm();
   }
 
-  _initAlarm() async{
-     await Alarm.init();
+  _initAlarm() async {
+    await Alarm.init();
   }
 
   @override
@@ -79,16 +77,13 @@ class _KidsWardState extends State<KidsWard> {
         centerTitle: true,
       ),
       body: FutureBuilder<List<ReminderModel>>(
-        future: fetchRemindersFromFirestore(), // Use the fetch method here
+        future: fetchRemindersFromFirestore(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            // While the data is being fetched, show a loading indicator.
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            // If an error occurs while fetching, show an error message.
-            return Text('Error fetching reminders: ${snapshot.error}');
+            return const Center(child: Text('No Reminders to show.'));
           } else {
-            // If the data is fetched successfully, build your UI with the data.
             List<ReminderModel> reminders = snapshot.data ?? [];
 
             return ListView.builder(
@@ -96,18 +91,15 @@ class _KidsWardState extends State<KidsWard> {
               itemBuilder: (context, index) {
                 ReminderModel reminder = reminders[index];
                 return ReminderCardWidget(
-                  // isReminderOn: reminder.isReminderOn,
-                  toggleReminderStatus: (newValue) async{
-                  print("new value is $newValue>>>>>>>>>");
-                  if(newValue == false){
-                    await Alarm.stop(reminder.id);
-                  }
-                      // Update the isReminderOn property of the specific ReminderModel
-                      ReminderModel updatedReminder = reminder.copyWith(
-                        isReminderOn: newValue,
-                      );
-                      reminders[index] = updatedReminder;
-                 
+                  toggleReminderStatus: (newValue) async {
+                    print("new value is $newValue>>>>>>>>>");
+                    if (newValue == false) {
+                      await Alarm.stop(reminder.id);
+                    }
+                    ReminderModel updatedReminder = reminder.copyWith(
+                      isReminderOn: newValue,
+                    );
+                    reminders[index] = updatedReminder;
                   },
                   reminder: reminder,
                 );
@@ -167,7 +159,7 @@ class _KidsWardState extends State<KidsWard> {
 
                                       final ReminderModel reminderModel =
                                           ReminderModel(
-                                            id: id,
+                                        id: id,
                                         patientName: patientNameController.text,
                                         drugName: drugFieldController.text,
                                         bedNo: bedNumberController.text,
@@ -186,12 +178,8 @@ class _KidsWardState extends State<KidsWard> {
                                       timeController.clear();
                                       dateController.clear();
 
-                                      // Call setState to trigger a rebuild of the UI
-                                      setState(() {
-                                        // You can update any other UI-related data here if needed
-                                      });
+                                      setState(() {});
 
-                                      // Close the modal after saving
                                       Navigator.pop(context);
                                     }
                                   },
@@ -306,8 +294,9 @@ class _KidsWardState extends State<KidsWard> {
   }
 
   int _convertTo16Bit(int value) {
-  return value & 0xFFFF; // Perform bitwise AND with 0xFFFF (hexadecimal for 65535, which is the maximum value for a 16-bit integer)
-}
+    return value &
+        0xFFFF; // Perform bitwise AND with 0xFFFF (hexadecimal for 65535, which is the maximum value for a 16-bit integer)
+  }
 
   _configureAlarm(
     int id,
@@ -330,27 +319,3 @@ class _KidsWardState extends State<KidsWard> {
     await Alarm.set(alarmSettings: alarmSettings);
   }
 }
-
-// final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-//     FlutterLocalNotificationsPlugin();
-// Future<void> scheduleAlarm(DateTime dateTime, String title, String body) async {
-//   var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
-//     'channel_id',
-//     'channel_name',
-//     importance: Importance.max,
-//     priority: Priority.high,
-//     playSound: true,
-//   );
-//   var platformChannelSpecifics = NotificationDetails(
-//     android: androidPlatformChannelSpecifics,
-//   );
-
-//   await flutterLocalNotificationsPlugin.schedule(
-//     0,
-//     title,
-//     body,
-//     dateTime,
-//     platformChannelSpecifics,
-//     androidAllowWhileIdle: true,
-//   );
-// }
