@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nursa/accessories/accessories.dart';
+import 'package:nursa/accessories/companion.dart';
 import 'package:nursa/others/puzzles.dart';
 import 'package:nursa/sendables/complaints.dart';
 import 'package:nursa/sendables/feedbacks.dart';
-import '../wards/emer_ward.dart';
 import '../wards/kids_ward.dart';
 
 class NurseContainer extends StatelessWidget {
@@ -14,56 +14,29 @@ class NurseContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            // Kids ward
-            Container(
-              height: 130,
-              width: 130,
-              decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 175, 146, 244),
-                  borderRadius: BorderRadius.circular(20)),
-              child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const KidsWard(),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    'KIDS\nWARD',
-                    style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                    textAlign: TextAlign.center,
-                  )),
-            ),
-
-            // emmergency ward
-            Container(
-              height: 130,
-              width: 130,
-              decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 175, 146, 244),
-                  borderRadius: BorderRadius.circular(20)),
-              child: TextButton(
-                  onPressed: () {
-                   
-                  },
-                  child: const Text(
-                    'EMER.\nWARD',
-                    style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                    textAlign: TextAlign.center,
-                  )),
-            ),
-          ],
+        Container(
+          height: 130,
+          width: 300,
+          decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 175, 146, 244),
+              borderRadius: BorderRadius.circular(20)),
+          child: TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const KidsWard(),
+                  ),
+                );
+              },
+              child: const Text(
+                'ADD\nMEDICATION',
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+                textAlign: TextAlign.center,
+              )),
         ),
         const SizedBox(height: 10),
         const Text(
@@ -136,7 +109,7 @@ class NurseContainer extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20)),
               child: TextButton(
                   onPressed: () {
-                    Get.to(() => const NurseEthicsPage());
+                    Get.to(() => const MedMnemonics());
                   },
                   child: const Text(
                     'Resources',
@@ -171,6 +144,28 @@ class NurseContainer extends StatelessWidget {
               ),
             ),
           ],
+        ),
+        const SizedBox(height: 10),
+        Container(
+          height: 130,
+          width: 150,
+          decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 175, 146, 244),
+              borderRadius: BorderRadius.circular(20)),
+          child: TextButton(
+            onPressed: () {
+              Get.to(() => NurseCompanionApp());
+            },
+            child: const Text(
+              'Nurse\nCompanion',
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.normal,
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
         ),
       ],
     );

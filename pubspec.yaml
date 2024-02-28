@@ -19,6 +19,7 @@ dependencies:
   flutter_local_notifications: ^14.1.1
   alarm: ^1.1.4
   get: ^4.6.5
+  flutter_markdown: ^0.6.17
   cloud_firestore: ^4.8.3
 
 dev_dependencies:

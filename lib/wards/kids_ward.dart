@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -67,15 +66,15 @@ class _KidsWardState extends State<KidsWard> {
     _initAlarm();
   }
 
-  _initAlarm() async{
-     await Alarm.init();
+  _initAlarm() async {
+    await Alarm.init();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Kids Ward"),
+        title: const Text("Add Medication"),
         centerTitle: true,
       ),
       body: FutureBuilder<List<ReminderModel>>(
@@ -97,17 +96,16 @@ class _KidsWardState extends State<KidsWard> {
                 ReminderModel reminder = reminders[index];
                 return ReminderCardWidget(
                   // isReminderOn: reminder.isReminderOn,
-                  toggleReminderStatus: (newValue) async{
-                  print("new value is $newValue>>>>>>>>>");
-                  if(newValue == false){
-                    await Alarm.stop(reminder.id);
-                  }
-                      // Update the isReminderOn property of the specific ReminderModel
-                      ReminderModel updatedReminder = reminder.copyWith(
-                        isReminderOn: newValue,
-                      );
-                      reminders[index] = updatedReminder;
-                 
+                  toggleReminderStatus: (newValue) async {
+                    print("new value is $newValue>>>>>>>>>");
+                    if (newValue == false) {
+                      await Alarm.stop(reminder.id);
+                    }
+                    // Update the isReminderOn property of the specific ReminderModel
+                    ReminderModel updatedReminder = reminder.copyWith(
+                      isReminderOn: newValue,
+                    );
+                    reminders[index] = updatedReminder;
                   },
                   reminder: reminder,
                 );
@@ -167,7 +165,7 @@ class _KidsWardState extends State<KidsWard> {
 
                                       final ReminderModel reminderModel =
                                           ReminderModel(
-                                            id: id,
+                                        id: id,
                                         patientName: patientNameController.text,
                                         drugName: drugFieldController.text,
                                         bedNo: bedNumberController.text,
@@ -306,8 +304,9 @@ class _KidsWardState extends State<KidsWard> {
   }
 
   int _convertTo16Bit(int value) {
-  return value & 0xFFFF; // Perform bitwise AND with 0xFFFF (hexadecimal for 65535, which is the maximum value for a 16-bit integer)
-}
+    return value &
+        0xFFFF; // Perform bitwise AND with 0xFFFF (hexadecimal for 65535, which is the maximum value for a 16-bit integer)
+  }
 
   _configureAlarm(
     int id,
