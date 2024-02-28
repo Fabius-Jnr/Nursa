@@ -2,8 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nursa/informations/help.dart';
-import 'package:nursa/registration/registration.dart';
+import 'package:nursa/welcome_screen/welcome_screen.dart';
 import '../container/nurse_container.dart';
 import '../informations/about.dart';
 
@@ -59,88 +58,7 @@ class _NurseDashboardState extends State<NurseDashboard> {
           )
         ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            UserAccountsDrawerHeader(
-              accountName: Text(name ?? 'Users'),
-              accountEmail: Text(email ?? 'hello@gmail.com'),
-              currentAccountPicture: const CircleAvatar(
-                backgroundImage: AssetImage('assets/nurse.jpg'),
-                radius: 80,
-              ),
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-            ListTile(
-              title: const Text(
-                "About",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 18,
-                ),
-              ),
-              leading: const Icon(Icons.question_mark_rounded),
-              onTap: () {
-                Get.to(() => const AboutPage());
-              },
-            ),
-            // ListTile(
-            //   title: const Text(
-            //     " Settings",
-            //     style: TextStyle(
-            //       color: Colors.black54,
-            //       fontSize: 18,
-            //     ),
-            //   ),
-            //   leading: const Icon(Icons.settings),
-            //   onTap: () {},
-            // ),
-            ListTile(
-              title: const Text(
-                " Help",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 18,
-                ),
-              ),
-              leading: const Icon(Icons.info),
-              onTap: () {
-                Get.to(() => const HelpPage());
-              },
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-            const Divider(),
-            ListTile(
-              title: const Text(
-                "Logout",
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 18,
-                ),
-              ),
-              leading: const Icon(Icons.logout),
-              onTap: () async {
-                FirebaseAuth auth = FirebaseAuth.instance;
-                try {
-                  await auth.signOut();
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Registration()));
-                } catch (e) {
-                  // Handle any error that may occur during the logout process
-                  print('Error during logout: $e');
-                }
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: const Drawer(),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(

@@ -16,87 +16,106 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Nurse Login'),
-        centerTitle: true,
-        backgroundColor: Colors.purple, // Customize the app bar color
-      ),
+//  appBar: _appBar(),
       body: SingleChildScrollView(
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          padding:
-              const EdgeInsets.all(20), // Increase padding for better spacing
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 90),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  height: 130,
-                  width: 130,
-                  padding: const EdgeInsets.all(20),
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.purple, // Use the same color as the app bar
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              const SizedBox(height: 80),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Admin_Login()));
+                  },
+                  child: const Text(
+                    'ADMIN\nLOGIN',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        color: Colors.indigoAccent,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
                   ),
-                  child: Image.asset('assets/image1.png'),
                 ),
-                const SizedBox(height: 20),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        LoginFormFieldWidget(
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Please provide your email";
-                            }
-                            return null;
-                          },
-                          hintText: "Email",
+              ),
+              Container(
+                height: 130,
+                width: 130,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color.fromARGB(255, 175, 146, 244),
+                ),
+                child: Image.asset('assets/image1.png'),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsetsDirectional.symmetric(horizontal: 30),
+                child: Column(
+                  children: [
+                    Form(
+                      key: _formKey,
+                      child: textField(
+                          hint_Text: 'Email',
+                          icon: Icons.email,
                           inputType: TextInputType.emailAddress,
                           controller: emailController,
-                          obscureText: false,
-                        ),
-                        const SizedBox(
-                            height: 10), // Add spacing between form fields
-                        LoginFormFieldWidget(
-                          validator: (value) {
-                            if (value!.isEmpty || value.length != 4) {
-                              return "Unique ID should be four digits";
-                            }
-                            return null;
-                          },
-                          hintText: "Staff ID",
-                          inputType: TextInputType.number,
-                          controller: uniqueIdController,
-                          obscureText: true,
-                        ),
-                        const SizedBox(
-                            height: 10), // Add spacing between form fields
-                        LoginFormFieldWidget(
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Please provide your password";
-                            }
-                            return null;
-                          },
-                          hintText: "Password",
-                          inputType: TextInputType.text,
-                          controller: passwordController,
-                          obscureText: true,
-                        ),
-                      ],
+                          obscureText: false),
                     ),
-                  ),
+                    textField(
+                        hint_Text: 'Unique Id',
+                        icon: Icons.password_sharp,
+                        inputType: TextInputType.number,
+                        controller: uniqueIdController,
+                        obscureText: true),
+                    textField(
+                        hint_Text: 'Pasword',
+                        icon: Icons.password,
+                        inputType: TextInputType.text,
+                        controller: passwordController,
+                        obscureText: true),
+                    const SizedBox(height: 10),
+                    loginButton(context),
+                  ],
                 ),
-                const SizedBox(height: 20),
-                loginButton(context),
-              ],
-            ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget textField(
+      {required String hint_Text,
+      required IconData icon,
+      required TextInputType inputType,
+      required TextEditingController controller,
+      required bool obscureText}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: TextFormField(
+        cursorColor: const Color.fromARGB(255, 153, 39, 201),
+        obscureText: obscureText,
+        keyboardType: inputType,
+        controller: controller,
+        decoration: InputDecoration(
+          // prefix: Icon(icon),
+          hintText: hint_Text,
+          focusedBorder: OutlineInputBorder(
+            borderSide:
+                const BorderSide(color: Color.fromARGB(255, 153, 39, 201)),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide:
+                const BorderSide(color: Color.fromARGB(255, 153, 39, 201)),
           ),
         ),
       ),

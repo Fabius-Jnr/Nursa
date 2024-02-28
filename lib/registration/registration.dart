@@ -33,120 +33,111 @@ class _RegistrationState extends State<Registration> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: const Text(
-            'Register Account',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 25,
-              letterSpacing: 1.5,
-            ),
-          ),
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.white12,
-          centerTitle: true,
-        ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 20,
-                    horizontal: 35,
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 40),
+            child: Center(
+              child: Column(
+                children: [
+                  Container(
+                    height: 130,
+                    width: 130,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 35),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color.fromARGB(255, 175, 146, 244),
+                    ),
+                    child: Image.asset("assets/image2.png"),
                   ),
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 175, 146, 244),
+                  const SizedBox(
+                    height: 10,
                   ),
-                  child: Image.asset("assets/image2.png"),
-                ),
-                const SizedBox(height: 20),
-                Container(
-                  padding:
-                      const EdgeInsetsDirectional.symmetric(horizontal: 30),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        TextFormFieldWidget(
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Please provide your full name";
-                            }
-                            return null;
-                          },
-                          hintText: "Name",
-                          icon: Icons.person,
-                          inputType: TextInputType.name,
-                          controller: nameController,
-                          obscureText: false,
-                        ),
-                        TextFormFieldWidget(
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Please provide your email";
-                            }
-                            return null;
-                          },
-                          hintText: "Email",
-                          icon: Icons.email,
-                          inputType: TextInputType.emailAddress,
-                          controller: emailController,
-                          obscureText: false,
-                        ),
-                        TextFormFieldWidget(
-                          validator: (value) {
-                            if (value!.isEmpty ||
-                                value.length.isLowerThan(4) ||
-                                value.length.isGreaterThan(4)) {
-                              return "Unique ID should be four digits";
-                            }
-                            return null;
-                          },
-                          hintText: "Unique ID",
-                          icon: Icons.password_sharp,
-                          inputType: TextInputType.number,
-                          controller: uniqueIdController,
-                          obscureText: true,
-                        ),
-                        TextFormFieldWidget(
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Please provide your password";
-                            }
-                            return null;
-                          },
-                          hintText: "Password",
-                          icon: Icons.password,
-                          controller: passwordController,
-                          obscureText: true,
-                          inputType: TextInputType.text,
-                        ),
-                      ],
+                  const Text(
+                    "Sign Up",
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
+                  const Divider(thickness: 0.9),
+                  const SizedBox(height: 0.3),
+                  Container(
+                    padding:
+                        const EdgeInsetsDirectional.symmetric(horizontal: 30),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          TextFormFieldWidget(
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Please provide your full name";
+                                }
+                                return null;
+                              },
+                              hintText: "Name",
+                              icon: Icons.person,
+                              inputType: TextInputType.name,
+                              controller: nameController,
+                              obscureText: false),
+                          TextFormFieldWidget(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Please provide your full name";
+                              }
+                              return null;
+                            },
+                            hintText: "Email",
+                            icon: Icons.email,
+                            inputType: TextInputType.emailAddress,
+                            controller: emailController,
+                            obscureText: false,
+                          ),
+                          TextFormFieldWidget(
+                            validator: (value) {
+                              if (value!.isEmpty ||
+                                  value.length.isLowerThan(4) ||
+                                  value.length.isGreaterThan(4)) {
+                                return "Unique ID should be four digits";
+                              }
+                              return null;
+                            },
+                            hintText: "Unique ID",
+                            icon: Icons.password_sharp,
+                            inputType: TextInputType.number,
+                            controller: uniqueIdController,
+                            obscureText: true,
+                          ),
+                          TextFormFieldWidget(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Please provide your password";
+                              }
+                              return null;
+                            },
+                            hintText: "Pasword",
+                            icon: Icons.password,
+                            controller: passwordController,
+                            obscureText: true,
+                            inputType: TextInputType.text,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                NavButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      final UserModel userModel = UserModel(
-                        userName: nameController.text,
-                        password: passwordController.text,
-                        uniqueId: uniqueIdController.text,
-                        email: emailController.text,
-                      );
-                      await Authentication().signUpUserWithEmailAndPassword(
-                        emailController.text,
-                        passwordController.text,
-                      );
+                  NavButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        final UserModel userModel = UserModel(
+                          userName: nameController.text,
+                          password: passwordController.text,
+                          uniqueId: uniqueIdController.text,
+                          email: emailController.text,
+                        );
+                        await Authentication().signUpUserWithEmailAndPassword(
+                          emailController.text,
+                          passwordController.text,
+                        );
 
                       // Adding user details to Firestore collection
                       await addUserDetails(

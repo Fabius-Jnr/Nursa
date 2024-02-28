@@ -4,7 +4,7 @@ import 'package:nursa/wards/reminder_model.dart';
 import 'widgets.dart';
 
 class ReminderCardWidget extends StatefulWidget {
-   ReminderCardWidget({
+   const ReminderCardWidget({
     Key? key,
     required this.reminder,
     required this.toggleReminderStatus,
